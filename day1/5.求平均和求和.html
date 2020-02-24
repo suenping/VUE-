@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>计算两个数的求和及平均</title>
+		<script src="vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			第一个数是{{numA}}，第二个数是{{numB}}；<br />
+			以上两个数的求和为{{reverse1}}<br />
+			以上两个数平均数为{{reverse2}}		
+		</div>
+		<script>
+			var vue = new Vue({
+				el:"#app",
+				data:{
+					numA:34,
+					numB:78,
+				},
+				computed:{
+					reverse1:function(){
+						return this.numA+this.numB;
+					},
+					reverse2:function(){
+						return (this.numA+this.numB)/2;
+					}					
+				}								
+			})
+			
+			
+			
+		</script>
+	</body>
+</html>

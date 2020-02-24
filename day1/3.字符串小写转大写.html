@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>小写转大写</title>
+		<script src="vue.js"></script>
+	</head>
+	<body>
+		<div id="app">
+			
+			<button @click="add">{{anniu}}</button>
+			<p>{{str}}</p>
+		</div>
+		<script>
+			var vue = new Vue({
+				el:"#app",
+				data:{	
+					type:true,
+					anniu:"转大写",
+					str:"help people interested in this repository understand your project by adding a readme.",
+				},
+				 methods:{
+					add:function(){
+						if(this.type){
+							this.str = this.str.toUpperCase();
+							this.type=false;
+							this.anniu="转小写";
+						}else{
+							this.str = this.str.toLowerCase();
+							this.type=true;
+							this.anniu="转大写";
+						}
+					
+					
+											
+					}
+				}								
+			})
+		</script>
+		
+	</body>
+</html>

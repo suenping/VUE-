@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>延时改变按钮状态和value值</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<style>
+			button{
+				width:100px;
+				height: 50px;
+				font-size: 20px;
+			}
+			.active{
+				background: blue;
+				color: white;
+			}
+		</style>
+	</head>
+	<body>
+		
+		<div id="app">
+			倒计时{{num}}秒将按钮设置为可用状态<br />
+			<button v-bind:disabled="btndis" v-bind:class="{active:isActive}">{{jinyong}}<span v-if="isSpan">({{num}})</span></button>
+		</div>
+		
+		<script>
+			// 创建实例
+			var btn = new Vue({
+				el:"#app",
+				data:{
+					jinyong:"禁用",
+					btndis:"true",
+					isActive:false,
+					isSpan:true,
+					num:5,
+				},
+				mounted:function(){					
+					var time = setInterval(()=>{
+						if(this.num > 1){
+							this.num--;
+						}else{
+							clearInterval(time);
+							this.jinyong="可用";
+							this.btndis=false;
+							this.isActive=true;
+							this.isSpan=false;
+						}
+					},1000)
+						
+					}
+					
+	
+				
+			})
+			
+			
+			
+			
+			
+		</script>
+	</body>
+</html>
