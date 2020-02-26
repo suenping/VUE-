@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>列表渲染</title>
+		<script src="vue.js"></script>
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+		 crossorigin="anonymous">
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+		 crossorigin="anonymous"></script>
+		<style>
+			.box {
+				margin-top: 20px;
+			}
+
+			.active {
+				bgcolor: blue;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container box">
+			<div class="row">
+				<div class="col-sm-12">
+					<table id="app" class="table table-bordered  table-hover">
+						<tr class="active">
+							<th>序号</th>
+							<th>姓名</th>
+							<th>性别</th>
+							<th>年龄</th>
+							<th>班级</th>
+						</tr>
+						<!-- <tr v-for="i in object">
+							<td>{{i.num}}</td>
+							<td>{{i.name}}</td>
+							<td>{{i.sex}}</td>
+							<td>{{i.age}}</td>
+							<td>{{i.banji}}</td>
+						</tr>	 -->					
+						<tr v-for="item in list"><td v-for="items in item">{{items}}</td></tr>
+					</table>
+				</div>
+			</div>
+		</div>
+		<script>
+			var vue = new Vue({
+				el: "#app",
+				data: {
+					list:[
+						[1,"孙平","男","24",13632832393],
+						[1,"孙平","男","24",13632832393],
+						[1,"孙平","男","24",13632832393],
+						[1,"孙平","男","24",13632832393],
+						[1,"孙平","男","24",13632832393]				
+					]												
+					// object:[{
+					// 	num: 1,
+					// 	name: "张三",
+					// 	sex: "男",
+					// 	age: "25",
+					// 	banji: "web-21"
+					// },{
+					// 	num: 1,
+					// 	name: "张三",
+					// 	sex: "男",
+					// 	age: "25",
+					// 	banji: "web-21"
+					// },{
+					// 	num: 1,
+					// 	name: "张三",
+					// 	sex: "男",
+					// 	age: "25",
+					// 	banji: "web-21"
+					// },{
+					// 	num: 1,
+					// 	name: "张三",
+					// 	sex: "男",
+					// 	age: "25",
+					// 	banji: "web-21"
+					// }, {
+					// 	num: 1,
+					// 	name: "张三",
+					// 	sex: "男",
+					// 	age: "25",
+					// 	banji: "web-21"
+					// }]
+				}
+			})
+		</script>
+
+
+
+	</body>
+</html>
