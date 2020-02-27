@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>购物车</title>
+		<script src="vue.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+		<style>
+			.table{width: 400px};			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<table class="table table-bordered  table-hover">
+				<tr>
+					<th>名称</th>
+					<th>单价</th>
+					<th>数量</th>
+					<th>小计</th>
+					<th>加入</th>
+				</tr>
+				<tr v-for="(item,index) of list">
+					<td>{{item.name}}</td>
+					<td>{{item.jiage}}</td>
+					<td>
+						<button type="button" @click="jian(item)">-</button>{{item.num}}
+						<button type="button" @click="jia(item)">+</button>
+					</td>
+					<td>{{item.jiage * item.num}}</td>
+					<td>
+						<button @click="push(index)">加入购物车</button>
+					</td>
+				</tr>
+			</table>
+			<!-- 购物车 -->	
+			<table class="table table-bordered  table-hover">
+				<tr>
+					<th>名称</th>
+					<th>单价</th>
+					<th>数量</th>
+					<th>小计</th>
+					<th>加入</th>
+				</tr>
+				<tr v-for="(item1,index1) in list1">
+					<td>{{item1.name}}</td>
+					<td>{{item1.jiage}}</td>
+					<td>{{item1.num}}</td>
+					<td>{{item1.jiage*item1.num}}</td>
+					<td><button @click="del(index1)">移出购物车</button></td>
+				</tr>
+				<tr>
+					<td>合计</td>
+					<td></td>
+					<td></td>
+					<td>{{heji}}</td>
+					<td></td>
+				</tr>		
+			</table>		
+		</div>
+		<script>
+			var vue = new Vue({
+				el:"#app",
+				data:{	
+					list:[						
+						{id:1,name:"iphoneX",jiage:5800,num:1},
+						{id:2,name:"华为P30",jiage:4500,num:1},
+						{id:3,name:"三星",jiage:3300,num:1},
+						{id:3,name:"小米",jiage:2200,num:1},
+					],
+					list1:[],
+					
+				},
+				methods:{
+					jian:function(item){
+						if(item.num >= 1){
+						item.num--;
+						}
+					},
+					jia:function(item){
+						item.num++;
+					},
+					push:function(index){
+						
+						if(this.list1[index]){
+							this.list1[index].num++;
+						}else{							
+							console.log(index);
+							return this.list1.push(this.list[index]);
+							console.log(this.list1)
+						}						
+					},
+					
+					del:function(index1){
+						console.log(index1);
+						return this.list1.splice(this.list1.index1,1);
+					}																		
+				},
+				computed:{
+					heji:function(){
+						var count = 0;
+						for(var i = 0 ; i < this.list1.length ; i++){
+							count += this.list1[i].num * this.list1[i].jiage;						
+						}
+						return count;											
+					},
+					
+				}
+								
+			})
+			
+			
+			
+			
+		</script>
+	</body>
+</html>

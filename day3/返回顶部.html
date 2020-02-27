@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>返回顶部</title>
+		<meta name="viewport" content="width=device-width" />
+		<script src="vue.js"></script>
+		<style>
+			*{padding:0;margin:0;}
+			ul,li{list-style: none;}
+			#app{position: absolute; top: 0; left:0; bottom:0;right:0;
+			background: lightblue;
+			}
+			#app ul{width: 100%; height: 100%; overflow: scroll;}
+			#app ul li{
+				width: 100%; height: 150px; margin-top: 5px; background: lightgoldenrodyellow;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<ul @scroll.passive = "scrolltop">
+				<li v-for="(item,index) in 20" :key="index">
+					<span>商品{{index}}</span>
+					<div>购买</div>
+				</li>
+			</ul>
+		</div>
+		<script>
+			var vm = new Vue({
+				el:"#app",
+				data:{
+					
+				},
+				methods:{
+					
+					scrolltop:function(ev){
+						console.log("滚动的函数运行了");
+						console.log(ev);
+						//滚动时离上边的距离
+						console.log(ev.target.scrollTop);
+					}
+				},
+			})
+		</script>	
+			
+			
+		
+	</body>
+</html>
