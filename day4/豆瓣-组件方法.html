@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>豆瓣</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+		<script src="vue.js" type="text/javascript"></script>
+		<script src="axios.min.js"></script>
+		<style>
+			*{margin: 0;padding: 0;}
+			.header{margin: 10px;}
+			ul li{list-style: none;}
+			.guochan{display: flex;text-align: center;overflow-x: auto;width: 100%;height: 100%;margin-bottom: 20px;}
+			.guochan::-webkit-scrollbar{display: none;}
+			.guochan li{margin:0px 4px 0px 4px;width: 100%;height: 100%;}
+			.guochan img{width: 100px;height: 140px;border-radius: 5px;}
+			.name{width:100px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden;}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<!-- <ul v-for="(item,index) in guochan">
+				<li>
+					<div><img :src="item.cover.url"></div>
+					<div><span>{{item.title}}</span></div>
+						<div class="row1">
+							<span v-if="item.rating">{{item.rating.value}}</span>
+						    <span v-else>{{item.null_rating_reason}}</span>
+						</div>	
+						
+				</li>
+			</ul> -->
+			<h3 class="header">近期值得看的国产剧</h3>
+			<douban :list="guochan"></douban>
+			<h3 class="header">近期值得看的综艺节目</h3>
+			<douban :list="zongyi"></douban>
+			<h3 class="header">近期值得看的美英剧</h3>
+			<douban :list="meiying"></douban>
+		</div>
+		<script type="text/javascript">
+				//子
+				douban = {
+					props:["list","biaoti"],							
+					template:`<div class="guochan"><ul v-for="(item) in list">
+								<li>
+									<div><img :src="item.cover.url"/></div>
+									<div class="name" title="标题">{{item.title}}</div>
+									<div>
+									<span v-if="item.rating">{{item.rating.value}}</span>
+									<span v-else>{{item.null_rating_reason}}</span>
+									</div>
+								</li>
+							  </ul></div>`,
+				},																	
+			 vm = new Vue({
+				el:"#app",
+				data:{	
+					guochan:[],
+					zongyi:[],
+					meiying:[]
+				},
+				components:{
+					douban,
+				},
+				mounted:function(){
+					axios.get("guochanlist.json").then((data)=>{
+						this.guochan = data.data.subject_collection_items;		
+						console.log(data);
+					});
+					axios.get("zongyilist.json").then((data)=>{
+						this.zongyi = data.data.subject_collection_items;		
+						console.log(data);
+					});
+					axios.get("meiyinglist.json").then((data)=>{
+						this.meiying = data.data.subject_collection_items;		
+						console.log(data);
+					});
+				}											
+			})									
+		</script>								
+	</body>
+</html>
