@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>候鸟旅行</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+		<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+		<!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css">
+		<!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+
+		<link rel="stylesheet" href="js/swiper.min.css">
+		<script src="js/swiper.min.js"></script>
+		<script src="js/vue.js" type="text/javascript"></script>
+		<script src="js/axios.min.js" type="text/javascript"></script>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+			}
+
+			ul li {
+				list-style: none;
+			}
+
+			html,
+			body {
+				position: relative;
+				height: 100%;
+			}
+
+			body {
+				background: #eee;
+				font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+				font-size: 14px;
+				color: #000;
+				margin: 0;
+				padding: 0;
+			}
+
+			.swiper-container {
+				width: 100%;
+				height: 100%;
+
+			}
+
+			.swiper-slide {
+				text-align: center;
+				font-size: 18px;
+				background: #fff;
+
+				/* Center slide text vertically */
+				display: -webkit-box;
+				display: -ms-flexbox;
+				display: -webkit-flex;
+				display: flex;
+				-webkit-box-pack: center;
+				-ms-flex-pack: center;
+				-webkit-justify-content: center;
+				justify-content: center;
+				-webkit-box-align: center;
+				-ms-flex-align: center;
+				-webkit-align-items: center;
+				align-items: center;
+			}
+
+			.swiper-wrapper {
+				height: 200px;
+			}
+
+			.swiper-slide img {
+				height: 100%;
+				width: 100%;
+			}
+
+			.swiper-pagination {
+				position: absolute;
+				top: 80%;
+			}
+
+			.nav {
+				height: 70px;
+				background: white;
+				text-align: center;
+				line-height: 70px;
+				color: lightsalmon;
+				font-size: 15px;
+			}
+
+			.list {
+				;
+				background: white;
+			}
+
+			.list ul li {
+				display: flex;
+				margin: 2px;
+				border-bottom: 1px solid lightgrey;
+			}
+
+			.list ul li div {
+				margin: 5px;
+			}
+
+			.list ul li div div {
+				margin: 5px;
+				padding: 3px;
+			}
+
+			.list img {
+				width: 150px;
+				height: 90px;
+			}
+
+			.name {
+				width: 90%;
+				white-space: nowrap;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				font-size: 15px;
+			}
+
+			.time {
+				color: darkgrey;
+			}
+
+			.tuijian {
+				;
+				height: 50px;
+				text-align: center;
+				line-height: 50px;
+				background: white;
+				margin-top: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Swiper -->
+		<div id="app">
+			<!-- <div class="swiper-container">					 
+		<div class="swiper-wrapper">
+		  <div class="swiper-slide"><img src="https://pic.51houniao.com/fd73112dc2264005bab2addc2f938514.jpg" ></div>
+		  <div class="swiper-slide"><img src="https://pic.51houniao.com/fdab80a9e95d4014a4111f2b4551b272.png" ></div>
+		  <div class="swiper-slide"><img src="https://pic.51houniao.com/b060e59417b345339615b61179b2d8b2.png" ></div>
+		  <div class="swiper-slide"><img src="https://pic.51houniao.com/0473e9db84854efeb3d7f7b6dee5f806.png" ></div>
+		  <div class="swiper-slide"><img src="https://pic.51houniao.com/b5615012680a46fb8c08f1b438eac0e7.png" ></div>
+		</div>
+		<lunbo :lunbolist="lunbotu"></lunbo>
+		<div class="swiper-pagination"></div>
+	  </div> -->
+			<lunbo :lunbolist="lunbotu"></lunbo>
+			<div class="container">
+				<div class="row nav">
+					<div class="col-xs-3"><span class="glyphicon glyphicon-cutlery"></span> 省心</div>
+					<div class="col-xs-3"><span class="glyphicon glyphicon-book"></span> 品质</div>
+					<div class="col-xs-3"><span class="glyphicon glyphicon-lock"></span> 私密</div>
+					<div class="col-xs-3"><span class="glyphicon glyphicon-user"></span> 专享</div>
+				</div>
+				<div class="row tuijian">
+					<div class="col-xs-12">推荐<span class="glyphicon glyphicon-menu-down"></span></div>
+				</div>
+			</div>
+			<productlist :list="houniao"></productlist>
+			<!-- 列表 -->
+			<!-- <div class="list">
+	  	<ul>	  		
+			<li>
+				<div>
+					<img src="https://pic.51houniao.com/b5615012680a46fb8c08f1b438eac0e7.png" >
+				</div>
+				<div>
+					<div>主题</div>
+					<div class="map"><span class="glyphicon glyphicon-map-marker"></span> 地图</div>	
+					<div><span class="glyphicon glyphicon-time"></span>6天5夜  <span class="glyphicon glyphicon-usd"></span>12888元起</div>
+				</div>
+			</li>
+	  	</ul>
+	  </div> -->
+		</div>
+		<script>
+			//组件
+
+
+			lunbo = {
+					props: ["lunbolist"],
+					template: `<div class="swiper-container">
+					<div class="swiper-wrapper">
+						<div class="swiper-slide" v-for="(item,index) in lunbolist" :key="index">
+							<img :src="item.photoUrl" />
+						</div>	  		
+					</div>
+					<div class="swiper-pagination"></div>
+				</div>`
+				},
+				productlist = {
+					props: ["list"],
+					template: `<div class="list">
+					<ul v-for="item in list">	  		
+						<li>
+							<div>
+								<img :src="item.proPicUrl" />
+							</div>
+							<div>
+								<div class="name">{{item.proTitle}}</div>
+								<div class="map"><span class="glyphicon glyphicon-map-marker"></span>{{item.country}}</div>	
+								<div class="time"><span class="glyphicon glyphicon-time"></span> {{item.routingDat}}天{{item.routingNigth}}夜  <span class="glyphicon glyphicon-usd"></span>{{item.amount}}元起</div>
+							</div>
+						</li>
+					</ul>
+				  </div>`
+				},
+				vm = new Vue({
+					el: "#app",
+					data: {
+						lunbotu: [],
+						houniao: {},
+					},
+					components: {
+						lunbo,
+						productlist
+					},
+					mounted: function() {
+						new Swiper('.swiper-container', {
+								spaceBetween: 30,
+								observer: true,
+								centeredSlides: true,
+								autoplay: {
+									delay: 2500,
+									disableOnInteraction: false,
+								},
+								pagination: {
+									el: '.swiper-pagination',
+									clickable: true,
+								},
+							}),
+							axios.get("json/houniaolunbotu.json").then((data) => {
+								this.lunbotu = data.data;
+							}),
+							axios.get("json/houniao.json").then((data) => {
+
+								this.houniao = data.data;
+								console.log(data);
+							})
+
+					}
+				})
+		</script>
+	</body>
+</html>
