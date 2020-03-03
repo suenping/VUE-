@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>模态框</title>
+		<script src="js/vue.js"></script>
+		<style type="text/css">
+			.box{
+				position: fixed;
+				top: 0;
+				left: 0;
+				right: 0;
+				bottom: 0;
+				background: rgba(0,0,0,0.5);
+			}
+			.main{
+				background: white;
+				height: 40%;
+				width: 30%;
+				margin: 0 auto;
+				margin-top: 150px;				
+				position: relative;
+				z-index: 1;
+			}
+			.header{
+				padding: 5px;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				background: #87CEEB;
+				}
+				.content{
+					position: absolute;
+					margin-top: 50px;					
+					}
+				.footer{
+					display: flex;
+					position: absolute;
+					bottom: 0px;
+					height: 50px;
+					width: 100%;
+					background: limegreen;
+					justify-content: center;
+				}
+					.footer div{
+						text-align: center;
+						line-height: 40px;
+						margin: 5px;
+						height: 40px;
+						width: 80px;
+						border-radius: 5px;
+						/* background: pink;												 */
+					}
+					.cel{background: lightgrey;}
+					.pass{background: pink;}
+					
+		</style>
+	</head>
+	<body>
+		<div id="app">	
+			<button @click="mybtn">显示模态框</button>
+			<basedialog1 :visible.sync="dialogvisible"></basedialog1>
+			
+		</div>
+		<!-- 模板 -->
+		<script type="text/template" id="mydialog">								
+				<div class="box" v-if="visible">
+					<div class="main">
+						<div class="header">
+							<span>我的标题</span>
+							<button @click="visible=false">x</button>
+						</div>
+						<div class="content">
+							<span>我是模态窗的主体</span>
+						</div>
+						<div class="footer">
+							<div class="cel">取消</div>
+							<div class="pass">确定</div>
+						</div>
+					</div>	
+				</div>									
+		</script>				
+		<script type="text/javascript">
+			//创建组件
+			basedialog1 = {
+				props:["visible"],
+				template:"#mydialog",//该id必须与模板id保持一致				
+			},						
+			// 创建一个新对象
+			vm =new Vue({
+			el:"#app",
+				data:{
+					dialogvisible:false,
+				},
+				components:{
+					basedialog1,
+					
+				},
+				methods:{
+					mybtn:function(){
+						this.dialogvisible=true;
+					},					
+					
+				}																
+			})
+		</script>
+	</body>
+</html>
