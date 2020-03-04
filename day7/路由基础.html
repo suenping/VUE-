@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>路由</title>
+		<script src="js/vue.js" type="text/javascript"></script>
+		<script src="js/vue-router.js" type="text/javascript"></script>
+		<style type="text/css">
+			#app div{width: 100px; height: 100px;background: #87CEEB;}
+		</style>
+	</head>
+	<body>
+		<div id="app">	
+			<!-- 5.插入路由 -->
+			<router-link to="/test">主页</router-link>
+			<router-link to="/about">关于我们</router-link>
+			<!-- 路由到的组件渲染的具体位置，即路由的出口 -->
+			<router-view>  </router-view>
+		</div>
+		<script type="text/javascript">
+			// 1.创建路由组件
+			main = {
+				template:`<div>主页</div>`
+			}
+			about = {
+				template:`<div>关于我们</div>`
+			},
+			// 2.创建路由配置表
+			routes = [
+				{"path":"/test","component":main},
+				{"path":"/about","component":about}				
+			];
+			// 3.配置路由表
+			var router = new VueRouter({
+				routes:routes
+			})
+			// 4.创建实例
+			vm = new Vue({
+				el:"#app",
+				data:{},
+				// 注册到根组件
+				router:router
+			})
+			
+		</script>
+		
+	</body>
+</html>

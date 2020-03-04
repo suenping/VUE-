@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>候鸟旅行</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1">
+		<script src="js/vue.js" type="text/javascript"></script>
+		<script src="js/vue-router.js" type="text/javascript"></script>
+		<script src="../day2/axios.min.js" type="text/javascript"></script>
+		<style type="text/css">
+			*{margin: 0;padding: 0;}
+			a{text-decoration: none;}
+			.btn{
+				width: 100%;
+				height: 40px;
+				background: limegreen;
+				text-align: center;
+				line-height: 40px;
+				color: white;
+				font-size: 20px;
+			}
+			.outer{margin: 8px;width: ;}
+			.list li{
+				margin-top: 5px;
+				margin-bottom: 5px;
+				border-bottom:1px lightgrey solid ;				
+			}
+			.list li div{
+				margin-right: 10px;
+				color: #A9A9A9;
+			}
+			.list img{
+				width: 150px;
+				height: 80px;
+				border-radius: 5px;
+			}
+			.list li {display: flex;}
+			.child{
+				width: 100%;
+				height: 100px;
+			}
+			.child img{width: 100%;
+			height: 100%;}
+			.title {
+				width: 100%;
+				height: 40px;
+				background: skyblue;
+				text-align: center;
+				line-height: 40px;
+				margin-bottom: 5px;
+			}	 			
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<router-link to="/test1"><div class="btn">列表</div></router-link>			
+		<router-view></router-view>			
+			
+		</div>
+		<script type="text/javascript">
+			//列表
+			test1 = {
+				data:function(){return{list:[]}},
+					template:`<div class="outer">
+						<ul class="list">
+							<li v-for="item in list">	
+							<div>
+								<img :src="item.proPicUrl">
+							</div>	
+							<div>				
+								<router-link :to="'/test2/'+item.productId">{{item.proTitle}}</router-link>							
+								<div class="country">{{item.country}}</div>		
+							</div>	
+							</li>
+						</ul>								
+					</div>`,
+				//调用数据
+				mounted:function(){
+					axios.post("http://www.51houniao.com/product/product/getProductRecommendUser",{
+						desc: false,
+						orderBy: "top",
+						pageNow: 1,
+						pageSize: 20,
+						seller_user_id: "4bc4027c645343f09a964b5c2e9f875b"
+					}).then((data)=>{
+						this.list = data.data;
+					})				
+				},
+			},
+			//内容
+			test2 = {
+				data:function(){
+					return{
+						item:{}
+					}
+				},
+				template:`<div class="child">
+							<div v-if="item.product_base_info !== undefined"><img  :src="item.product_base_info.pro_pic_url"/></div>
+							<div class="title" v-if="item.product_base_info !== undefined">{{item.product_base_info.pro_title}}</div>						
+				</div>`,
+				watch:{
+					"$route"(to,from){}
+				},
+				mounted:function(){
+					//获取内容页数据
+					axios.get("http://www.51houniao.com/product/product/getProductDetails/"+this.$route.params.idvalue
+						).then((data)=>{					
+						this.item = data.data;
+					})
+					console.log(this.$route);
+				}
+			},			
+			//创建路由表
+			routes = [
+				{"path":"/test1","component":test1},
+				{"path":"/test2/:idvalue","component":test2}
+			],
+			//配置路由
+			router = new VueRouter({
+				routes:routes,
+			}),
+			//创建实例对象
+			vm = new Vue({
+				el:"#app",
+				router:router
+			})
+		</script>
+	</body>
+</html>
