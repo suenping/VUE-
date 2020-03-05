@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>404</title>
+		<script src="js/vue.js"></script>
+		<script src="js/vue-router.js" type="text/javascript">
+			
+		</script>
+		
+	</head>
+	<body>
+		<div id="app">
+			<router-link to="/list1">首页</router-link>
+			<router-link to="/list2">列表</router-link>
+			<router-view></router-view>
+		</div>
+		
+		<script type="text/javascript">
+			mylist1 = {
+				template:`<div>首页</div>`
+			},
+			mylist2 = {
+				template:`<div>列表</div>`
+			},
+			base404 = {
+				template:`<div>404
+				<button @click="GoHome">返回首页</button>
+				</div>`,
+				methods:{
+					GoHome:function(){
+						this.$router.push("/list1");
+					}
+				}
+			},
+			routes = [
+				{"path":"/list1","component":mylist1},
+				{"path":"/list2","component":mylist2},
+				{"path":"*","component":base404}
+			],
+			router = new VueRouter({
+				routes:routes
+			}),
+			vm = new Vue({
+				el:"#app",
+				router:router
+			})
+		</script>
+	</body>
+</html>

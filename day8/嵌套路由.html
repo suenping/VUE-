@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>嵌套路由</title>
+		<script src="js/vue.js"></script>
+		<script src="js/vue-router.js" type="text/javascript"></script>
+		<style type="text/css">
+			.home{
+				width: 400px;
+				height: 200px;
+				background: #87CEEB;
+			}
+			.list{
+				width: 400px;
+				height: 200px;
+				background: pink;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<router-link to="/list1"><button>首页</button></router-link>
+			<router-link to="/list2"><button>列表</button></router-link>
+			<router-view></router-view>
+		</div>		
+		<script type="text/javascript">
+			mylist1 = {
+				template:`<div class="home">
+							<hr/>
+							<router-link to="/list1/child1">aaaaa</router-link>
+							<router-link to="/list1/child2">bbbbb</router-link>
+							<div>
+							<router-view></router-view>
+							</div>
+						</div>`
+			},
+			mylist2 = {
+				template:`<div class="list">							
+							<hr />
+							<router-link to="/list2/child3">ccccc</router-link>
+							<router-link to="/list2/child4">ddddd</router-link>
+							<div>
+							<router-view></router-view>
+							</div>
+						</div>`
+			},			
+			child1 = {
+				template:`<div>子页一</div>`
+			},
+			child2 = {
+				template:`<div>子页二</div>`
+			},
+			child3 = {
+				template:`<div>子页一</div>`
+			},
+			child4 = {
+				template:`<div>子页二</div>`
+			},
+			base404 = {
+				template:`<div>404
+						<button @click="func">跳转到首页</button>
+						</div>`,
+				methods:{
+					func:function(){
+						this.$router.push("/list1")
+					}
+				}					
+			},
+			routes = [
+				{
+					"path":"/list1",
+					"component":mylist1,
+					children:[
+						{"path":"child1",component:child1},//child前面不用加/
+						{"path":"child2",component:child2},//child前面不用加/
+					]
+				},
+				{
+					"path":"/list2",
+					"component":mylist2,
+					children:[
+						{"path":"child3",component:child3},
+						{"path":"child4",component:child4},
+					]	
+					},
+				{"path":"*","component":base404}
+			],
+			router = new VueRouter({
+				routes:routes
+			}),
+			vm = new Vue({
+				el:"#app",
+				data:{},
+				router:router
+			})
+		</script>
+	</body>
+</html>
